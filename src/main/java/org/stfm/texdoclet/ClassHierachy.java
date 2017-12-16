@@ -12,7 +12,7 @@ import com.sun.javadoc.RootDoc;
  * Manages and prints a class hierarchy. Use <CODE>add</CODE> to add another
  * class to the hierarchy. Use <CODE>printTree</CODE> to print the corresponding
  * <TEX txt="\LaTeX{}">LaTeX</TEX>.
- * 
+ *
  * @version $Revision: 1.1 $
  * @author Soeren Caspersen - XO Software
  */
@@ -64,16 +64,20 @@ public class ClassHierachy extends java.lang.Object {
 		Iterator<String> it = set.iterator();
 		while (it.hasNext()) {
 			String qualifName = it.next();
-			ClassDoc cls = rootDoc.classNamed(qualifName);
-			TeXDoclet.os.print("\\hspace{" + Double.toString(indent)
-					+ "cm} $\\bullet$ "
-					+ HTMLtoLaTeXBackEnd.fixText(qualifName) + " {\\tiny ");
-			if (cls != null) {
-				TeXDoclet.printRef(cls.containingPackage(), cls.name(), "");
+			if (!(qualifName.equals("java.lang.Object") || qualifName.equals("java.lang.Throwable"))) {
+				ClassDoc cls = rootDoc.classNamed(qualifName);
+				TeXDoclet.os.print("\\hspace{" + Double.toString(indent)
+						+ "cm} $\\bullet$ "
+						+ HTMLtoLaTeXBackEnd.fixText(qualifName) + " {\\tiny ");
+				if (cls != null) {
+					TeXDoclet.printRef(cls.containingPackage(), cls.name(), "");
+				}
+				TeXDoclet.os.println("} \\\\");
+				printBranch(rootDoc, map.get(qualifName), indent + overviewindent,
+						overviewindent);
+			} else {
+				printBranch(rootDoc, map.get(qualifName), indent, overviewindent);
 			}
-			TeXDoclet.os.println("} \\\\");
-			printBranch(rootDoc, map.get(qualifName), indent + overviewindent,
-					overviewindent);
 		}
 	}
 }

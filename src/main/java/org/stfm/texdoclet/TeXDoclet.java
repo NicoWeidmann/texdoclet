@@ -90,14 +90,14 @@ import com.sun.javadoc.Type;
  * <dd>image located in the www: <IMG
  * src="http://upload.wikimedia.org/wikipedia/commons/9/92/LaTeX_logo.svg">
  * </dl>
- * 
+ *
  * <H3>Extra tags</H3> <H4>&lt;TEX&gt;</H4> A new tag is defined:
  * <CODE>&lt;TEX&gt;</CODE>. This tag is useful for passing <TEX
  * txt="\TeX{}">TeX</TEX> code directly to the <TEX txt="\TeX{}">TeX</TEX>
  * compiler. The following code:
- * 
+ *
  * <PRE>
- * 
+ *
  *  &lt;TEX txt="\[ F\left( x \right) = \int_{ - \infty }^x {\frac{1}{{\sqrt {2\pi }
  *               }}e^{ - \frac{{z^2 }}{2}} dz} \]"&gt;
  *  &lt;BR&gt;&lt;BR&gt;&lt;B&gt;This alternative text will appear if the javadoc/HTML is parsed
@@ -112,9 +112,9 @@ import com.sun.javadoc.Type;
  * <BR>
  * </TEX> The "alternative" text is ignored by the TeXDoclet, but useful if you
  * want to use both the TeXDoclet and a regular HTML based doclet.
- * 
+ *
  * <H4>&lt;PRE format="markdown"&gt;</H4>
- * 
+ *
  * Instead of writing your java documentation in often hard to read HTML code
  * you can make use of <a
  * href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> syntax. The HTML
@@ -122,58 +122,58 @@ import com.sun.javadoc.Type;
  * automatically reordering your Markdown documentation text. Markdown parsing
  * is based on the <a href="https://github.com/sirthias/pegdown">Pegdown</a>
  * implementation. The following code :
- * 
+ *
  * <PRE>
- * 
+ *
  * &lt;PRE format="markdown"&gt;
- * 
- * some text some text some text some text some text some text some text 
- * 
+ *
+ * some text some text some text some text some text some text some text
+ *
  * ##### Lists
- * 
+ *
  * - item1
  *     1. item11
  *     2. item12
  * - item1
- * 
+ *
  * ##### Text formatting
- * 
+ *
  * _emphasis_ and __strong__ and some `code` :
- * 
+ *
  *     code line 1
  *     code line 2
- *     
+ *
  * some text some text some text some text some text some text some text
- * 
+ *
  * &lt;PRE&gt;
- * 
+ *
  * </PRE>
- * 
+ *
  * will produce the following : <br>
  * <p>
- * 
+ *
  * <PRE format="md">
- * 
- * some text some text some text some text some text some text some text 
- * 
+ *
+ * some text some text some text some text some text some text some text
+ *
  * ##### Lists
- * 
+ *
  * - item1
  *     1. item11
  *     2. item12
  * - item1
- * 
+ *
  * ##### Text formatting
- * 
+ *
  * _emphasis_ and __strong__ and some `code` :
- * 
+ *
  *     code line 1
  *     code line 2
- *     
+ *
  * some text some text some text some text some text some text some text
- * 
+ *
  * </PRE>
- * 
+ *
  * @see HTMLtoLaTeXBackEnd
  * @see #start(RootDoc) start
  * @author Gregg Wonderly - C2 Technologies Inc.
@@ -315,7 +315,7 @@ public class TeXDoclet extends Doclet {
 	/**
 	 * Doclet class method that returns how many arguments would be consumed if
 	 * <code>option</code> is a recognized option.
-	 * 
+	 *
 	 * @param option
 	 *            the option to check
 	 */
@@ -407,7 +407,7 @@ public class TeXDoclet extends Doclet {
 	/**
 	 * Doclet class method that checks the passed options and their arguments
 	 * for validity.
-	 * 
+	 *
 	 * @param args
 	 *            the arguments to check
 	 * @param err
@@ -531,9 +531,9 @@ public class TeXDoclet extends Doclet {
 	/**
 	 * Doclet class method that is called by the framework to format the entire
 	 * document
-	 * 
+	 *
 	 * @Override
-	 * 
+	 *
 	 * @param root
 	 *            the root of the starting document
 	 */
@@ -969,7 +969,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Adds an entire file (HTML or LaTeX).
-	 * 
+	 *
 	 * @param fixText
 	 *            Should be true if the file contains HTML.
 	 */
@@ -1077,7 +1077,9 @@ public class TeXDoclet extends Doclet {
 		}
 		if (interfaceHierachy.root.size() != 0) {
 			os.println("\\" + sectionLevels[1] + "*{Interfaces}");
+			os.println("{\\raggedright");
 			interfaceHierachy.printTree(root, overviewindent);
+			os.println("}");
 		}
 
 		// Exceptions
@@ -1091,7 +1093,9 @@ public class TeXDoclet extends Doclet {
 		}
 		if (exceptionHierachy.root.size() != 0) {
 			os.println("\\" + sectionLevels[1] + "*{Exceptions}");
+			os.println("{\\raggedright");
 			exceptionHierachy.printTree(root, overviewindent);
+			os.println("}");
 		}
 
 		// Errors
@@ -1114,7 +1118,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Lays out a list of classes.
-	 * 
+	 *
 	 * @param type
 	 *            Title of the section, e.g. "Interfaces", "Exceptions" etc.
 	 * @param classes
@@ -1414,7 +1418,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Enumerates the fields passed and formats them using Tex statements.
-	 * 
+	 *
 	 * @param flds
 	 *            the fields to format
 	 */
@@ -1490,7 +1494,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Produces a constructor/method summary.
-	 * 
+	 *
 	 * @param dmems
 	 *            The fields to be summarized.
 	 * @param title
@@ -1528,7 +1532,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Produces a field summary.
-	 * 
+	 *
 	 * @param dmems
 	 *            The fields to be summarized.
 	 * @param title
@@ -1844,7 +1848,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Prints class inheritance (list of members inherited from superclasses).
-	 * 
+	 *
 	 */
 	static void printInherited(ClassDoc par) {
 		boolean members = false;
@@ -1885,7 +1889,7 @@ public class TeXDoclet extends Doclet {
 	/**
 	 * Enumerates the members of a section of the document and formats them
 	 * using Tex statements.
-	 * 
+	 *
 	 * @param mems
 	 *            the members of this entity
 	 * @see #start
@@ -2113,7 +2117,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Returns a package relative identifier.
-	 * 
+	 *
 	 * @param doc
 	 *            The package the identifier should be relative to.
 	 * @param str
@@ -2129,7 +2133,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Returns a class relative identifier.
-	 * 
+	 *
 	 * @param doc
 	 *            The class the identifier should be relative to.
 	 * @param str
@@ -2154,7 +2158,7 @@ public class TeXDoclet extends Doclet {
 
 	/**
 	 * Prints a "see also" tag.
-	 * 
+	 *
 	 * @param tag
 	 *            The "see also" tag to print.
 	 * @param relativeTo
