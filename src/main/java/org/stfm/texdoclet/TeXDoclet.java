@@ -885,6 +885,8 @@ public class TeXDoclet extends Doclet {
 			os.println("\\makeindex");
 		}
 
+		os.println("\\setcounter{tocdepth}{1}");
+
 		addFile(os, preambleFile, false);
 
 	}
