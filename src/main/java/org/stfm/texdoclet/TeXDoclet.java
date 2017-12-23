@@ -243,6 +243,7 @@ public class TeXDoclet extends Doclet {
 	static boolean useHr = false;
 	static boolean usePackageToc = true;
 	static boolean shortInheritance = false;
+    static boolean nochildren = false;
 	/**
 	 * print writer for extra LaTeX preamble file
 	 */
@@ -397,7 +398,9 @@ public class TeXDoclet extends Doclet {
 			return 2;
 		} else if (option.equals("-methoddeclrframe")) {
 			return 2;
-		}
+		} else if (option.equals("-nochildren")) {
+            return 1;
+        }
 		System.out.println("unknown TeXDoclet option " + option);
 
 		// return Standard.optionLength(option);
@@ -510,7 +513,9 @@ public class TeXDoclet extends Doclet {
 				classDeclarationFrame = args[i][1];
 			} else if (args[i][0].equals("-methoddeclrframe")) {
 				methodDeclarationFrame = args[i][1];
-			}
+			} else if (args[i][0].equals("-nochildren")) {
+                nochildren = true;
+            }
 
 			if (sectionLevelMax != null
 					&& !sectionLevelMax.equals(CHAPTER_LEVEL)
@@ -1226,70 +1231,72 @@ public class TeXDoclet extends Doclet {
 						+ HTMLtoLaTeXBackEnd.fixText(verTags[0].text()) + "}");
 			}
 
-			String subclasses = "";
-			for (int index = 0; index < theroot.classes().length; index++) {
-				ClassDoc cls = theroot.classes()[index];
-				if (cls.subclassOf(cd) && !cls.equals(cd)) {
-					if (!subclasses.equals("")) {
-						subclasses += ", ";
-					}
-					subclasses += HTMLtoLaTeXBackEnd.fixText(cls.name());
-					subclasses += "\\small{\\refdefined{"
-							+ refName(makeRefKey(cls.qualifiedName())) + "}}";
-				}
-			}
+            if (!nochildren) {
+    			String subclasses = "";
+    			for (int index = 0; index < theroot.classes().length; index++) {
+    				ClassDoc cls = theroot.classes()[index];
+    				if (cls.subclassOf(cd) && !cls.equals(cd)) {
+    					if (!subclasses.equals("")) {
+    						subclasses += ", ";
+    					}
+    					subclasses += HTMLtoLaTeXBackEnd.fixText(cls.name());
+    					subclasses += "\\small{\\refdefined{"
+    							+ refName(makeRefKey(cls.qualifiedName())) + "}}";
+    				}
+    			}
 
-			if (cd.isInterface()) {
-				if (!subclasses.equals("")) {
-					os.println("\\" + sectionLevels[2]
-							+ "{All known subinterfaces}{" + subclasses + "}");
-				}
-			} else {
-				if (!subclasses.equals("")) {
-					os.println("\\" + sectionLevels[2]
-							+ "{All known subclasses}{" + subclasses + "}");
-				}
-			}
+    			if (cd.isInterface()) {
+    				if (!subclasses.equals("")) {
+    					os.println("\\" + sectionLevels[2]
+    							+ "{All known subinterfaces}{" + subclasses + "}");
+    				}
+    			} else {
+    				if (!subclasses.equals("")) {
+    					os.println("\\" + sectionLevels[2]
+    							+ "{All known subclasses}{" + subclasses + "}");
+    				}
+    			}
 
-			String subintf = "";
-			String implclasses = "";
-			if (cd.isInterface()) {
-				for (int index = 0; index < theroot.classes().length; index++) {
-					ClassDoc cls = theroot.classes()[index];
-					boolean impls = false;
-					for (int w = 0; w < cls.interfaces().length; w++) {
-						ClassDoc intfDoc = cls.interfaces()[w];
-						if (intfDoc.equals(cd)) {
-							impls = true;
-						}
-					}
-					if (impls) {
-						if (cls.isInterface()) {
-							if (!subintf.equals("")) {
-								subintf += ", ";
-							}
-							subintf += cls.name();
-							subintf += "\\small{\\refdefined{"
-									+ refName(makeRefKey(cls.qualifiedName()))
-									+ "}}";
-						} else {
-							if (!implclasses.equals("")) {
-								implclasses += ", ";
-							}
-							implclasses += cls.name();
-							implclasses += "\\small{\\refdefined{"
-									+ refName(makeRefKey(cls.qualifiedName()))
-									+ "}}";
-						}
-					}
-				}
+    			String subintf = "";
+    			String implclasses = "";
+    			if (cd.isInterface()) {
+    				for (int index = 0; index < theroot.classes().length; index++) {
+    					ClassDoc cls = theroot.classes()[index];
+    					boolean impls = false;
+    					for (int w = 0; w < cls.interfaces().length; w++) {
+    						ClassDoc intfDoc = cls.interfaces()[w];
+    						if (intfDoc.equals(cd)) {
+    							impls = true;
+    						}
+    					}
+    					if (impls) {
+    						if (cls.isInterface()) {
+    							if (!subintf.equals("")) {
+    								subintf += ", ";
+    							}
+    							subintf += cls.name();
+    							subintf += "\\small{\\refdefined{"
+    									+ refName(makeRefKey(cls.qualifiedName()))
+    									+ "}}";
+    						} else {
+    							if (!implclasses.equals("")) {
+    								implclasses += ", ";
+    							}
+    							implclasses += cls.name();
+    							implclasses += "\\small{\\refdefined{"
+    									+ refName(makeRefKey(cls.qualifiedName()))
+    									+ "}}";
+    						}
+    					}
+    				}
 
-				if (!implclasses.equals("")) {
-					os.println("\\" + sectionLevels[2]
-							+ "{All classes known to implement interface}{"
-							+ implclasses + "}");
-				}
-			}
+    				if (!implclasses.equals("")) {
+    					os.println("\\" + sectionLevels[2]
+    							+ "{All classes known to implement interface}{"
+    							+ implclasses + "}");
+    				}
+    			}
+            }
 
 			if (summaries) {
 				flds = cd.fields();
