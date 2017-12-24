@@ -37,7 +37,7 @@ import com.keypoint.PngEncoder;
  * href="doc-files/appendix_b.txt">appendix_b.txt</a>) are transformed to
  * references to the appendix, whereby the referenced files itself are included
  * in the appendix.
- * 
+ *
  * @see javax.swing.text.html.parser.ParserDelegator
  * @author Soeren Caspersen
  */
@@ -69,7 +69,7 @@ public class HTMLtoLaTeXBackEnd extends HTMLEditorKit.ParserCallback {
 
 	/**
 	 * Constructs a new instance.
-	 * 
+	 *
 	 * @param stringBuffer
 	 *            The <CODE>StringBuffer</CODE> where the translated HTML is
 	 *            appended.
@@ -254,7 +254,7 @@ public class HTMLtoLaTeXBackEnd extends HTMLEditorKit.ParserCallback {
 		} else if (tag == HTML.Tag.INPUT) {
 		} else if (tag == HTML.Tag.BODY) {
 		} else if (tag == HTML.Tag.CODE) {
-			ret.append(TeXDoclet.TRUETYPE + "\\small ");
+			ret.append("\\verb%" + "\\small ");
 		} else if (tag == HTML.Tag.TT) {
 			ret.append(TeXDoclet.TRUETYPE + " ");
 		} else if (tag == HTML.Tag.P) {
@@ -405,7 +405,7 @@ public class HTMLtoLaTeXBackEnd extends HTMLEditorKit.ParserCallback {
 		} else if (tag == HTML.Tag.INPUT) {
 		} else if (tag == HTML.Tag.BODY) {
 		} else if (tag == HTML.Tag.CODE) {
-			ret.append("}");
+			ret.append("%");
 		} else if (tag == HTML.Tag.TT) {
 			ret.append("}");
 		} else if (tag == HTML.Tag.P) {
@@ -688,7 +688,7 @@ public class HTMLtoLaTeXBackEnd extends HTMLEditorKit.ParserCallback {
 	/**
 	 * Converts a HTML string into <TEX txt="\LaTeX{}">LaTeX</TEX> using an
 	 * instance of <CODE>HTMLtoLaTeXBackEnd</CODE>.
-	 * 
+	 *
 	 * @return The converted string.
 	 */
 	public static String fixText(String str) {
