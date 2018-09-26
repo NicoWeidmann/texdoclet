@@ -254,7 +254,7 @@ public class HTMLtoLaTeXBackEnd extends HTMLEditorKit.ParserCallback {
 		} else if (tag == HTML.Tag.INPUT) {
 		} else if (tag == HTML.Tag.BODY) {
 		} else if (tag == HTML.Tag.CODE) {
-			ret.append("\\verb%" + "\\small ");
+			ret.append(TeXDoclet.TRUETYPE + "\\small ");
 		} else if (tag == HTML.Tag.TT) {
 			ret.append(TeXDoclet.TRUETYPE + " ");
 		} else if (tag == HTML.Tag.P) {
@@ -405,7 +405,7 @@ public class HTMLtoLaTeXBackEnd extends HTMLEditorKit.ParserCallback {
 		} else if (tag == HTML.Tag.INPUT) {
 		} else if (tag == HTML.Tag.BODY) {
 		} else if (tag == HTML.Tag.CODE) {
-			ret.append("%");
+			ret.append("}");
 		} else if (tag == HTML.Tag.TT) {
 			ret.append("}");
 		} else if (tag == HTML.Tag.P) {
